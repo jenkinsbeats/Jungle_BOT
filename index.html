@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TONchaser Demo</title>
+</head>
+<body style="background:#111;color:#ffd700;font-family:sans-serif;text-align:center;">
+  <h1>🌴 TONchaser Demo</h1>
+  <p>Collect coins, watch ads, open chests!</p>
+  <button onclick="simulateAd()">📺 Watch Ad</button>
+  <p id="status">No ads watched yet.</p>
+  <script>
+    let ads = 0;
+    function simulateAd(){
+      ads++;
+      document.getElementById('status').innerText = "Ads watched: " + ads;
+    }
+  </script>
+</body>
+</html>
