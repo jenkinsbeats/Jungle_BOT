@@ -9,7 +9,7 @@ WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "supersecret")
 PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL", "")
 ADGEM_APPID = os.getenv("ADGEM_APPID", "30887")
 
-app = Flask(__name__)
+app = Flask(TONchaserBot)
 
 # In-memory baza demo
 players = {}
@@ -61,3 +61,25 @@ if __name__ == "__main__":
         r = requests.get(setwh_url)
         logging.info(f"Webhook set: {r.text}")
     app.run(host="0.0.0.0", port=port)
+from flask import Flask, request
+import requests
+import os
+
+app = Flask(TONchaserBot)
+
+TOKEN = os.environ.get("TELEGRAM_TOKEN")
+URL = f"https://api.telegram.org/bot{TOKEN}"
+
+@app.route("/", methods=["GET"])
+def home():
+    return "TONchaser Bot is running! ✅"
+
+@app.route("/", methods=["POST"])
+def webhook():
+    update = request.get_json()
+    if "message" in update:
+        chat_id = update["message"]["chat"]["id"]
+        text = update["message"].get("text", "")
+        if text == "/start":
+            requests.post(f"{URL}/sendMessage", json={"chat_id": chat_id, "text": "Welcome to TONchaserBot! 🌴🌕✨"})
+    return "ok"
